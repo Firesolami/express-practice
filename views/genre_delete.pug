@@ -1,0 +1,22 @@
+extends layout
+
+block content
+
+  h1 Genre: #{genre.name}
+
+  div(style='margin-left:20px;margin-top:20px')     
+    if books.length
+      h2(style='font-size: 1.5rem;') You have to delete these books first:
+      dl
+        each book in books
+          dt
+            a(href=book.url) #{book.title}
+          dd #{book.summary}
+    else
+      p Do you really want to delete this Genre?
+
+      form(method='POST')
+        div.form-group
+          input#authorid.form-control(type='hidden', name='genreid', value=genre._id )
+
+        button.btn.btn-primary(type='submit') Delete

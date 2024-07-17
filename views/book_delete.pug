@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  h1 Title: #{book.title}
+
+  p #[strong Summary:] #{book.summary}
+
+  if bookinstance_list.length
+    h2(style='font-size: 1.5rem;') You have to delete these copies first:
+    ul
+      each val in bookinstance_list
+        li
+          a(href=val.url) #{book.title} : #{val.imprint} -&nbsp;
+          if val.status=='Available'
+            span.text-success #{val.status}
+          else if val.status=='Maintenance'
+            span.text-danger #{val.status}
+          else
+            span.text-warning #{val.status}
+          if val.status!='Available'
+            span  (Due: #{val.due_back_formatted} )
+
+  else
+    p Do you really want to delete this Book?
+
+    form(method='POST')
+      div.form-group
+        input#authorid.form-control(type='hidden', name='bookid', value=book._id )
+
+      button.btn.btn-primary(type='submit') Delete
